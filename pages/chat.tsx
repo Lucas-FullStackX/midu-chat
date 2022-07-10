@@ -2,27 +2,33 @@ import React, { useEffect } from 'react';
 import { NextPage } from 'next';
 import { getAccessToken } from '../src/services';
 import { useStore } from '../src/hooks/useStore';
-import { supabase } from '../src/auth/supabaseClient';
+// import { supabase } from '../src/auth/supabaseClient';
 import { createOrJoinConversation } from '../src/services/chat';
 import { useDispatch } from '../src/hooks/useDispatch';
 import { ChatActionsTypes } from '../src/types';
 import { useRouter } from 'next/router';
+import { User, useUser } from '@supabase/auth-helpers-react';
+import { withPageAuth, getUser } from '@supabase/auth-helpers-nextjs';
 
-const Home: NextPage = () => {
+const Home: NextPage<{
+  user: User;
+}> = ({ user }: { user: User }) => {
+  const { accessToken: sbToken, checkSession, isLoading } = useUser();
+  console.log('test', user, isLoading);
   const store = useStore();
   const dispatch = useDispatch();
   const router = useRouter();
   const [room, setRoom] = React.useState('');
   const [accessToken, setAccessToken] = React.useState('');
-  const session = supabase.auth.session();
+  // const session = supabase.auth.session();
+  console.log('session', accessToken);
   useEffect(() => {
-    console.log('store', session);
+    console.log('user', user);
+    checkSession();
     const getToken = async () => {
-      if (session) {
-        console.log('user', session);
+      if (sbToken) {
         try {
-          const token = await getAccessToken({ token: session.access_token });
-          console.log('token', token);
+          const token = await getAccessToken({ token: sbToken });
           setAccessToken(token);
           return token;
         } catch (e) {
@@ -38,7 +44,8 @@ const Home: NextPage = () => {
     try {
       conversation = await createOrJoinConversation({
         room,
-        accessToken
+        accessToken,
+        userName: user?.email ?? ''
       });
       console.log('conversation', conversation);
     } catch (e) {
@@ -79,3 +86,11 @@ const Home: NextPage = () => {
 };
 
 export default Home;
+export const getServerSideProps = withPageAuth({
+  redirectTo: '/',
+  async getServerSideProps(ctx) {
+    // Access the user object
+    const { user } = await getUser(ctx);
+    return { props: { user } };
+  }
+});

@@ -1,32 +1,26 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { useStore } from '../../src/hooks/useStore';
 import { MessageInput } from '../../src/components/MessagesInput';
+import { Message } from '../../src/components/Message';
+import { useMessages } from '../../src/hooks/useMessages';
+import { useCheckStore } from '../../src/hooks/useCheckStore';
 
 const Home: NextPage = () => {
   const router = useRouter();
   const room = router.query.room as string;
-  const store = useStore();
-  console.log('store', store);
-  const [messages, setMessages] = React.useState([]);
-  useEffect(() => {
-    const getMessages = async () => {
-      if (store.activeConversation) {
-        const currentMessages = await store.activeConversation.getMessages();
-        setMessages(currentMessages.items);
-        store.activeConversation.on('messageAdded', (message) => {
-          setMessages([...messages, message]);
-        });
-      }
-    };
-
-    getMessages();
-  }, []);
-  console.log('messages', messages);
+  const { loading, error } = useCheckStore({
+    room
+  });
+  const { messages } = useMessages();
+  console.log(error, loading);
   return (
-    <div className="container flex h-full min-h-screen content-center justify-center">
+    <div className="relative mx-auto mr-8 ml-8 max-w-6xl py-2">
       <h2>{room}</h2>
+      <br />
+      {messages.map((message) => (
+        <Message key={message.sid} message={message} />
+      ))}
       <MessageInput />
     </div>
   );

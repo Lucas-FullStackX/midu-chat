@@ -1,11 +1,12 @@
 import { Client } from '@twilio/conversations';
-
 export const createOrJoinConversation = async ({
   room,
-  accessToken
+  accessToken,
+  userName
 }: {
   room: string;
   accessToken: string;
+  userName: string;
 }) => {
   const client = new Client(accessToken);
   return new Promise((resolve) => {
@@ -17,7 +18,8 @@ export const createOrJoinConversation = async ({
         console.log('here2');
 
         try {
-          conversation = await client.createConversation({ uniqueName: room });
+          conversation = await client.getConversationByUniqueName(room);
+          conversation = await client.getConversationBySid(room);
           console.log('here3');
 
           // await conversation?.add('ma')
@@ -27,16 +29,19 @@ export const createOrJoinConversation = async ({
           console.log('here3.2');
 
           try {
-            conversation = await client.getConversationByUniqueName(room);
+            conversation = await client.createConversation({
+              uniqueName: room
+            });
 
             // await conversation?.add('ma')
             // await conversation?.add('mb')
           } catch (e) {
+            console.log('GetConversationByUniqueName error', room);
             console.error(e);
           }
         }
 
-        conversation?.add('quittojicoippo-7625@yopmail.com');
+        conversation?.add(userName);
         resolve(conversation);
       }
     });

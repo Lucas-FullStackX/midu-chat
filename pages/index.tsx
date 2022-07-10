@@ -1,11 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import { LoginForm } from '../src/components/LoginForm';
 import { useGetSession } from '../src/hooks/useUserSession';
+import { useUser } from '@supabase/auth-helpers-react';
+import { useRouter } from 'next/router';
 
 const Home: NextPage = () => {
   const { error, status } = useGetSession();
+  const { user } = useUser();
+
+  const router = useRouter();
+  useEffect(() => {
+    if (user) {
+      router.push('/chat');
+    }
+  }, [user]);
+  console.log('user', user);
   return (
     <div className="container flex h-full min-h-screen content-center justify-center">
       <Head>
@@ -18,7 +29,7 @@ const Home: NextPage = () => {
           {error}-{status}
         </div>
       )}
-      <LoginForm />
+      {!user && <LoginForm />}
     </div>
   );
 };
