@@ -6,3 +6,5 @@ export const TWILIO_ACCOUNT_SID =
 export const TWILIO_API_KEY = process.env.NEXT_PUBLIC_TWILIO_API_KEY ?? '';
 export const TWILIO_API_SECRET =
   process.env.NEXT_PUBLIC_TWILIO_API_SECRET ?? '';
+export const TWILIO_AUTH_TOKEN =
+  process.env.NEXT_PUBLIC_TWILIO_AUTH_TOKEN ?? '';

@@ -1,6 +1,10 @@
 import axios from 'axios';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import twilio from 'twilio';
+import {
+  TWILIO_ACCOUNT_SID,
+  TWILIO_AUTH_TOKEN
+} from '../../src/constants/index';
 
 type Data = {
   name: string;
@@ -11,10 +15,7 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   const { chatSID, identity } = req.query;
-  const client = twilio(
-    'ACd3bf721856987744f82d2c352c0c117d',
-    '21877a42790f3fa8692fb472c0199b81'
-  );
+  const client = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
   if (!chatSID || !identity) {
     res.status(400).json({ error: 'Missing chatSID or identity' });
     return;
