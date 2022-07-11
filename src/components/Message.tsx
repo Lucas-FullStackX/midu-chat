@@ -3,7 +3,7 @@
 import React, { FunctionComponent } from 'react';
 import md5 from 'md5';
 import dayjs from 'dayjs';
-import { supabase } from '../auth/supabaseClient';
+import { useUser } from '@supabase/auth-helpers-react';
 interface MessageProps {
   message: {
     body: string;
@@ -14,7 +14,7 @@ interface MessageProps {
 
 export const Message: FunctionComponent<MessageProps> = ({ message }) => {
   const { author, body, dateCreated } = message;
-  const user = supabase.auth.user();
+  const { user } = useUser();
   const hash = md5(author);
   const createdAt = dayjs(dateCreated).format('HH:mm');
   const isAuthor = author === user?.email;

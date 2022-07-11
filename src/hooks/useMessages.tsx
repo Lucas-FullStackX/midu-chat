@@ -15,25 +15,26 @@ export const useMessages = () => {
     const getMessages = async () => {
       if (store.activeConversation) {
         const currentMessages = await store.activeConversation.getMessages();
+        console.log('currentMessages', currentMessages);
         setMessages(currentMessages.items);
       }
     };
-    if (store.activeConversation) {
-      store.activeConversation.on(
-        'messageAdded',
-        (message: {
-          sid: string;
-          body: string;
-          author: string;
-          dateCreated: Date;
-        }) => {
-          console.log('message', messages);
-          setMessages([...messages, message]);
-        }
-      );
-    }
     getMessages();
-  }, []);
+  }, [store.activeConversation]);
+  if (store.activeConversation) {
+    store.activeConversation.on(
+      'messageAdded',
+      (message: {
+        sid: string;
+        body: string;
+        author: string;
+        dateCreated: Date;
+      }) => {
+        console.log('messageHOOK', messages);
+        setMessages([...messages, message]);
+      }
+    );
+  }
 
   return { messages };
 };

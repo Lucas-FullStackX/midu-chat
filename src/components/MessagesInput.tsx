@@ -12,12 +12,7 @@ export const MessageInput: FunctionComponent<LoginFormProps> = () => {
   };
   const onKeyDown = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      console.log('message', store);
       e.preventDefault();
-      console.log(
-        'send message',
-        await store.activeConversation.sendMessage(message)
-      );
       try {
         await store.activeConversation.sendMessage(message);
         setMessage('');

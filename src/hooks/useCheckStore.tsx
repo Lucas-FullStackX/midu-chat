@@ -1,4 +1,4 @@
-import { useUser } from '@supabase/auth-helpers-react';
+import { User } from '@supabase/supabase-js';
 import { useEffect, useState } from 'react';
 import { getAccessToken } from '../services';
 import { createOrJoinConversation } from '../services/chat';
@@ -6,12 +6,19 @@ import { ChatActionsTypes } from '../types';
 import { useDispatch } from './useDispatch';
 import { useStore } from './useStore';
 
-export const useCheckStore = ({ room }: { room: string }) => {
+export const useCheckStore = ({
+  room,
+  sbToken,
+  user
+}: {
+  room: string;
+  sbToken: string;
+  user: User;
+}) => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const dispatch = useDispatch();
   const store = useStore();
-  const { user, accessToken: sbToken } = useUser();
   useEffect(() => {
     const getConversation = async () => {
       if (!store.activeConversation) {
