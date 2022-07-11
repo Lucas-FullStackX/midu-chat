@@ -15,7 +15,7 @@ export const useFormSession = ({ type }: useFormSessionProps) => {
     email: '',
     password: ''
   });
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<Error | null>();
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -31,8 +31,12 @@ export const useFormSession = ({ type }: useFormSessionProps) => {
         user = await onSingUp(form);
       }
       dispatch({ type: ChatActionsTypes.SET_USER, payload: user });
-    } catch (e: any) {
-      setError(e);
+    } catch (err) {
+      if (err instanceof Error) {
+        // 👉️ err is type Error here
+        console.log(err.message);
+        setError(err);
+      }
     }
   };
 

@@ -7,7 +7,9 @@ import {
 } from '../../src/constants/index';
 
 type Data = {
-  name: string;
+  name?: string;
+  error?: string;
+  data?: any;
 };
 
 export default async function handler(
@@ -38,7 +40,10 @@ export default async function handler(
     console.log(data);
     res.status(200).json({ data });
   } catch (e) {
-    console.error(e);
-    res.status(500).json({ error: e.message });
+    if (e instanceof Error) {
+      // 👉️ err is type Error here
+      res.status(500).json({ error: e.message });
+    }
+    console.log(e);
   }
 }
