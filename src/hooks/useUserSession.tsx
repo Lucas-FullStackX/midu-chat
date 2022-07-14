@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { ChatContext } from '../context/ChatContext';
-import { supabase } from '../auth/supabaseClient';
 import { ChatActionsTypes } from '../types';
+import { supabaseClient } from '@supabase/auth-helpers-nextjs';
 
 export const useGetSession = () => {
   const { dispatch } = useContext(ChatContext);
@@ -11,13 +11,13 @@ export const useGetSession = () => {
   const router = useRouter();
   useEffect(() => {
     const getUser = async () => {
-      const user = supabase.auth.user();
+      const user = supabaseClient.auth.user();
       console.log('hook', user);
       const {
         data,
         error: err,
         status: state
-      } = await supabase
+      } = await supabaseClient
         .from('profiles')
         .select('username, website, avatar_url')
         .eq('id', user?.id ?? '')

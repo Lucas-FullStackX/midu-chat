@@ -28,26 +28,15 @@ export const useCheckStore = ({
           setLoading(false);
           return;
         }
-        let accessToken;
-        try {
-          accessToken = await getAccessToken({ token: sbToken });
-        } catch (e) {
-          setLoading(false);
-          setError('error getting access token');
-          return;
-        }
 
-        let conversation;
-        try {
-          conversation = await createOrJoinConversation({
-            room,
-            accessToken,
-            userName: user?.email ?? ''
-          });
-          console.log('conversation', conversation);
-        } catch (e) {
-          console.log(e);
-        }
+        const accessToken = await getAccessToken({ token: sbToken });
+
+        const conversation = await createOrJoinConversation({
+          room,
+          accessToken,
+          userName: user?.email ?? ''
+        });
+        console.log('conversation', conversation);
 
         if (conversation) {
           dispatch({

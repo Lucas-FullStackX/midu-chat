@@ -20,7 +20,7 @@ export const Message: FunctionComponent<MessageProps> = ({ message }) => {
   const isAuthor = author === user?.email;
   return (
     <div
-      className={`flex  items-center ${
+      className={`mt-2 mb-2 flex items-center ${
         isAuthor ? 'justify-end' : 'justify-start'
       } space-x-4 space-y-1`}
     >

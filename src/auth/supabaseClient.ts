@@ -1,11 +1,8 @@
-import { createClient } from '@supabase/supabase-js';
-import { SUPABASE_KEY, SUPABASE_URL } from '../constants/index';
-
-export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+import { supabaseClient } from '@supabase/auth-helpers-nextjs';
 
 export const onLogin = async (data: { email: string; password: string }) => {
   try {
-    const { user, error } = await supabase.auth.signIn({
+    const { user, error } = await supabaseClient.auth.signIn({
       email: data.email,
       password: data.password
     });
@@ -20,7 +17,7 @@ export const onLogin = async (data: { email: string; password: string }) => {
 };
 export const onSingUp = async (data: { email: string; password: string }) => {
   try {
-    const { user, error } = await supabase.auth.signUp({
+    const { user, error } = await supabaseClient.auth.signUp({
       email: data.email,
       password: data.password
     });

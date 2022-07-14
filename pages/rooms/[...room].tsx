@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { MessageInput } from '../../src/components/MessagesInput';
@@ -20,14 +20,22 @@ const Home: NextPage<{
     sbToken: accessToken
   });
   const { messages } = useMessages();
-  console.log('messages', messages);
+  const ref = React.useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (ref.current && messages.length) {
+      console.log('scroll to bottom');
+      ref.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages]);
   return (
-    <div className="relative mx-auto mr-8 ml-8 max-w-6xl py-2">
+    <div className="mx-auto mr-8 ml-8 grid max-h-screen max-w-6xl grid-cols-1 grid-rows-[50px_85vh_auto] py-2">
       <h2>{room}</h2>
-      <br />
-      {messages.map((message) => (
-        <Message key={message.sid} message={message} />
-      ))}
+      <div className="h-full overflow-x-hidden">
+        {messages.map((message) => (
+          <Message key={message.sid} message={message} />
+        ))}
+        <div ref={ref} />
+      </div>
       <MessageInput />
     </div>
   );

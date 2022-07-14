@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import { supabaseClient } from '@supabase/auth-helpers-nextjs';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import twilio from 'twilio';
-import { supabase } from '../../src/auth/supabaseClient';
 import {
   SERVICE_SID,
   TWILIO_ACCOUNT_SID,
@@ -23,7 +23,7 @@ export default async function handler(
     res.status(400).json({ error: 'Missing jwt' });
     return;
   }
-  const user = await supabase.auth.api.getUser(jwt as string);
+  const user = await supabaseClient.auth.api.getUser(jwt as string);
   console.log(user);
   const identity = user?.data?.email;
   console.log({ identity });
