@@ -25,7 +25,14 @@ export const useFormSession = ({ type }: useFormSessionProps) => {
       let user;
       if (type === TypeOptions.login) {
         user = await onLogin(form);
-        router.push('/chat');
+        if (
+          window.history.length > 1 &&
+          document.referrer.indexOf(window.location.host) !== -1
+        ) {
+          router.back();
+        } else {
+          router.push('/chat');
+        }
       }
       if (type === TypeOptions.register) {
         user = await onSingUp(form);
