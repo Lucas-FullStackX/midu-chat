@@ -10,7 +10,27 @@ const Home: NextPage<{
   const chatSID = router.query.chatSID as string;
   console.log('chatSID', chatSID);
   useEffect(() => {
-    fetch(`/api/add-participant?chatSID=${chatSID[0]}&identity=${user?.email}`);
+    const res = async () => {
+      try {
+        const test = await fetch(
+          `/api/add-participant?chatSID=${chatSID[0]}&identity=${user?.email}`
+        );
+        const { room } = await test.json();
+        router.push(`/rooms/${room}`);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    if (!user) {
+      router.push({
+        pathname: '/loginForm',
+        query: {
+          redirectTo: `/invitation/${chatSID}`
+        }
+      });
+    } else {
+      res();
+    }
   }, []);
   console.log('user', user);
   return <p>Loading</p>;
@@ -19,7 +39,7 @@ const Home: NextPage<{
 export default Home;
 
 export const getServerSideProps = withPageAuth({
-  redirectTo: '/',
+  authRequired: false,
   async getServerSideProps(ctx) {
     // Access the user object
     const { user, accessToken } = await getUser(ctx);

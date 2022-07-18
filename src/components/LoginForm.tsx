@@ -3,12 +3,17 @@ import React, { FunctionComponent, useState } from 'react';
 import { useFormSession } from '../hooks/useFormSession';
 import { TypeOptions } from '../types';
 
-interface LoginFormProps {}
+interface LoginFormProps {
+  redirectTo?: string;
+}
 
-export const LoginForm: FunctionComponent<LoginFormProps> = () => {
+export const LoginForm: FunctionComponent<LoginFormProps> = ({
+  redirectTo
+}) => {
   const [typeForm, setTypeForm] = useState<TypeOptions>(TypeOptions.register);
   const { form, onChange, onSubmit, error } = useFormSession({
-    type: typeForm
+    type: typeForm,
+    redirectTo
   });
   return (
     <div className="h-1/3 w-1/3 self-center rounded-lg border border-gray-200 bg-white p-4 shadow-md dark:border-gray-700 dark:bg-gray-800 sm:p-6 lg:p-8">

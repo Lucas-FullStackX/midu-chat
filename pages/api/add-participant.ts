@@ -9,6 +9,7 @@ type Data = {
   name?: string;
   error?: string;
   data?: any;
+  room?: string;
 };
 
 export default async function handler(
@@ -21,12 +22,26 @@ export default async function handler(
   if (!chatSID || !identity) {
     return res.status(400).json({ error: 'Missing chatSID or identity' });
   }
-  client.conversations.v1
+  const uniqueName = await client.conversations.v1
     .conversations(chatSID as string)
-    .participants.create({ identity: identity as string })
-    .then((participant) => res.json({ data: participant }))
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json({ error: err });
+    .fetch()
+    .then((conversation) => {
+      console.log(conversation);
+      return conversation.uniqueName;
     });
+  try {
+    const participant = await client.conversations.v1
+      .conversations(chatSID as string)
+      .participants.create({ identity: identity as string });
+
+    res.json({ data: participant, room: uniqueName });
+  } catch (err) {
+    if (err instanceof Error) {
+      // 👉️ err is type Error here
+      if (err.message.toLowerCase().includes('already exists')) {
+        res.json({ data: err.message, room: uniqueName });
+      }
+      res.status(500).json({ error: err.message });
+    }
+  }
 }

@@ -7,14 +7,12 @@ import { useRouter } from 'next/router';
 
 const Home: NextPage = () => {
   const { user } = useUser();
-
   const router = useRouter();
   useEffect(() => {
     if (user) {
       router.push('/chat');
     }
   }, [user]);
-  console.log('user', user);
   return (
     <div className="container flex h-full min-h-screen content-center justify-center">
       <Head>

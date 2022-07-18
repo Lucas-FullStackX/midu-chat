@@ -6,9 +6,10 @@ import { useDispatch } from './useDispatch';
 
 type useFormSessionProps = {
   type: TypeOptions;
+  redirectTo?: string;
 };
 
-export const useFormSession = ({ type }: useFormSessionProps) => {
+export const useFormSession = ({ type, redirectTo }: useFormSessionProps) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [form, setForm] = useState({
@@ -25,19 +26,17 @@ export const useFormSession = ({ type }: useFormSessionProps) => {
       let user;
       if (type === TypeOptions.login) {
         user = await onLogin(form);
-        if (
-          window.history.length > 1 &&
-          document.referrer.indexOf(window.location.host) !== -1
-        ) {
-          router.back();
-        } else {
-          router.push('/chat');
-        }
       }
       if (type === TypeOptions.register) {
         user = await onSingUp(form);
       }
       dispatch({ type: ChatActionsTypes.SET_USER, payload: user });
+      console.log('here:', redirectTo);
+      if (redirectTo) {
+        router.push(redirectTo);
+      } else {
+        router.push('/chat');
+      }
     } catch (err) {
       if (err instanceof Error) {
         // 👉️ err is type Error here
