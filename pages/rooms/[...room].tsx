@@ -6,7 +6,6 @@ import { Message } from '../../src/components/Message';
 import { useMessages } from '../../src/hooks/useMessages';
 import { useCheckStore } from '../../src/hooks/useCheckStore';
 import { getUser, User, withPageAuth } from '@supabase/auth-helpers-nextjs';
-import { ButtonClip } from '../../src/components/ButtonClip';
 import { useStore } from '../../src/hooks/useStore';
 import { NavBar } from '../../src/components/NavBar';
 
