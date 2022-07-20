@@ -10,9 +10,15 @@ interface MessageProps {
     author: string;
     dateCreated: Date;
   };
+  isNext?: boolean;
+  isPrevious?: boolean;
 }
 
-export const Message: FunctionComponent<MessageProps> = ({ message }) => {
+export const Message: FunctionComponent<MessageProps> = ({
+  message,
+  isNext,
+  isPrevious
+}) => {
   const { author, body, dateCreated } = message;
   const { user } = useUser();
   const hash = md5(author);
@@ -27,15 +33,19 @@ export const Message: FunctionComponent<MessageProps> = ({ message }) => {
       <>
         {isAuthor ? (
           <>
-            <div className="w-2/3 rounded-lg border border-cyan-600 p-2 font-medium dark:text-white">
-              <p className="text-slate-900">{body}</p>
-              <p className="text-xs text-slate-500">{createdAt}</p>
+            <div className="max-w-2/3 w-auto rounded-lg bg-blue-500 p-2 font-medium text-white">
+              <p className="text-white">{body}</p>
+              <p className="text-right text-xs text-slate-300">{createdAt}</p>
             </div>
-            <img
-              className="h-8 w-8 rounded-full"
-              src={`https://www.gravatar.com/avatar/${hash}?d=identicon`}
-              alt={author}
-            />
+            {isNext ? (
+              <img
+                className="h-8 w-8 rounded-full"
+                src={`https://www.gravatar.com/avatar/${hash}?d=identicon`}
+                alt={author}
+              />
+            ) : (
+              <div className="w-8" />
+            )}
           </>
         ) : (
           <>
@@ -44,8 +54,13 @@ export const Message: FunctionComponent<MessageProps> = ({ message }) => {
               src={`https://www.gravatar.com/avatar/${hash}?d=identicon`}
               alt={author}
             />
-            <div className="w-2/3 rounded-lg border border-cyan-600 p-2 font-medium dark:text-white">
-              <p className="text-slate-900">{body}</p>
+            <div className="max-w-2/3 relative w-auto rounded-lg  bg-slate-800 p-2 font-medium dark:text-white">
+              {isPrevious && (
+                <span className="absolute -top-5 truncate text-xs">
+                  {author.split('@')[0]}
+                </span>
+              )}
+              <p className="text-white">{body}</p>
               <p className="text-xs text-slate-500">{createdAt}</p>
             </div>
           </>

@@ -6,8 +6,8 @@ import { Message } from '../../src/components/Message';
 import { useMessages } from '../../src/hooks/useMessages';
 import { useCheckStore } from '../../src/hooks/useCheckStore';
 import { getUser, User, withPageAuth } from '@supabase/auth-helpers-nextjs';
-import { ButtonClip } from '../../src/components/ButtonClip';
 import { useStore } from '../../src/hooks/useStore';
+import { NavBar } from '../../src/components/NavBar';
 
 const Home: NextPage<{
   user: User;
@@ -34,16 +34,27 @@ const Home: NextPage<{
       setRoute(window.location.host);
     }
   }, [messages]);
-  console.log('route', route);
+  console.log('messages', messages);
   return (
-    <div className="mx-auto mr-8 ml-8 grid max-h-screen max-w-6xl grid-cols-1 grid-rows-[50px_85vh_auto] py-2">
-      <h2>{room}</h2>
-      <ButtonClip
+    <div className="mx-auto mr-8 ml-8 grid max-h-screen max-w-6xl grid-cols-1 grid-rows-[55px_80vh_auto] py-2">
+      <NavBar
         copyText={`${route}/invitation/${store.activeConversation?.sid}`}
+        title={room}
       />
-      <div className="h-full overflow-x-hidden">
-        {messages.map((message) => (
-          <Message key={message.sid} message={message} />
+      <div className="scrollbar-thumb-rounded-full h-full overflow-hidden overflow-y-scroll pr-2 scrollbar-thin scrollbar-thumb-slate-600">
+        {messages.map((message, index) => (
+          <Message
+            key={message.sid}
+            message={message}
+            isNext={
+              index < messages.length - 1 &&
+              message.author !== messages[index + 1]?.author
+            }
+            isPrevious={
+              messages.length > 1 &&
+              message.author !== messages[index - 1]?.author
+            }
+          />
         ))}
         <div ref={ref} />
       </div>
