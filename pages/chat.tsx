@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 import { NextPage } from 'next';
 import { getAccessToken } from '../src/services';
-import { useStore } from '../src/hooks/useStore';
-// import { supabase } from '../src/auth/supabaseClient';
 import { createOrJoinConversation } from '../src/services/chat';
 import { useDispatch } from '../src/hooks/useDispatch';
 import { ChatActionsTypes } from '../src/types';
@@ -13,18 +11,12 @@ import { withPageAuth, getUser } from '@supabase/auth-helpers-nextjs';
 const Home: NextPage<{
   user: User;
 }> = ({ user }: { user: User }) => {
-  const { accessToken: sbToken, checkSession, isLoading } = useUser();
-  console.log('test', user, isLoading);
-  const store = useStore();
+  const { accessToken: sbToken, checkSession } = useUser();
   const dispatch = useDispatch();
   const router = useRouter();
   const [room, setRoom] = React.useState('');
   const [accessToken, setAccessToken] = React.useState('');
-  // const session = supabase.auth.session();
-
-  console.log('session', accessToken);
   useEffect(() => {
-    console.log('user', user);
     checkSession();
     const getToken = async () => {
       if (sbToken) {
@@ -48,7 +40,6 @@ const Home: NextPage<{
         accessToken,
         userName: user?.email ?? ''
       });
-      console.log('conversation', conversation);
     } catch (e) {
       console.log(e);
     }
@@ -58,7 +49,6 @@ const Home: NextPage<{
         type: ChatActionsTypes.SET_ACTIVE_CONVERSATION,
         payload: conversation
       });
-      console.log('conversation', store);
       router.push(`/rooms/${room}`);
     }
   };
