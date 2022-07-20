@@ -4,7 +4,6 @@ import copy from 'copy-to-clipboard';
 export const ButtonClip = ({ copyText }: { copyText: string }) => {
   const copyToClipboard = () => {
     copy(copyText);
-    alert(`You have copied "${copyText}"`);
   };
   const [tooltipStatus, setTooltipStatus] = React.useState(false);
   return (

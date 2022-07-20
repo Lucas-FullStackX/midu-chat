@@ -21,6 +21,7 @@ const Home: NextPage<{
   const [room, setRoom] = React.useState('');
   const [accessToken, setAccessToken] = React.useState('');
   // const session = supabase.auth.session();
+
   console.log('session', accessToken);
   useEffect(() => {
     console.log('user', user);
