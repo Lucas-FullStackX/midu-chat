@@ -48,7 +48,7 @@ const Home: NextPage<{
             message={message}
             isNext={
               index < messages.length - 1 &&
-              message.author !== messages[index + 1]?.author
+              message.author === messages[index + 1]?.author
             }
             isPrevious={
               messages.length > 1 &&

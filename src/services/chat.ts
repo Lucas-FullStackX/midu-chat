@@ -42,6 +42,7 @@ export const createOrJoinConversation = async ({
         }
 
         conversation?.add(userName);
+        console.log(conversation);
         resolve(conversation);
       }
     });

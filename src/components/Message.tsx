@@ -26,7 +26,7 @@ export const Message: FunctionComponent<MessageProps> = ({
   const isAuthor = author === user?.email;
   return (
     <div
-      className={`mt-2 mb-2 flex items-center ${
+      className={`mt-4 mb-4 flex items-center ${
         isAuthor ? 'justify-end' : 'justify-start'
       } space-x-4 space-y-1`}
     >
@@ -49,11 +49,15 @@ export const Message: FunctionComponent<MessageProps> = ({
           </>
         ) : (
           <>
-            <img
-              className="h-8 w-8 rounded-full"
-              src={`https://www.gravatar.com/avatar/${hash}?d=identicon`}
-              alt={author}
-            />
+            {isPrevious ? (
+              <img
+                className="h-8 w-8 rounded-full"
+                src={`https://www.gravatar.com/avatar/${hash}?d=identicon`}
+                alt={author}
+              />
+            ) : (
+              <div className="w-8" />
+            )}
             <div className="max-w-2/3 relative w-auto rounded-lg  bg-slate-800 p-2 font-medium dark:text-white">
               {isPrevious && (
                 <span className="absolute -top-5 truncate text-xs">

@@ -30,8 +30,10 @@ export const useFormSession = ({ type, redirectTo }: useFormSessionProps) => {
       if (type === TypeOptions.register) {
         user = await onSingUp(form);
       }
-      dispatch({ type: ChatActionsTypes.SET_USER, payload: user });
-      console.log('here:', redirectTo);
+      if (user) {
+        console.log('here:', user);
+        dispatch({ type: ChatActionsTypes.SET_USER, payload: user });
+      }
       if (redirectTo) {
         router.push(redirectTo);
       } else {

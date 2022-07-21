@@ -7,6 +7,7 @@ import { ChatActionsTypes } from '../src/types';
 import { useRouter } from 'next/router';
 import { User, useUser } from '@supabase/auth-helpers-react';
 import { withPageAuth, getUser } from '@supabase/auth-helpers-nextjs';
+import { useFetchChats } from '../src/hooks/useFetchChats';
 
 const Home: NextPage<{
   user: User;
@@ -16,6 +17,8 @@ const Home: NextPage<{
   const router = useRouter();
   const [room, setRoom] = React.useState('');
   const [accessToken, setAccessToken] = React.useState('');
+  const { chatList } = useFetchChats();
+  console.log('chatList', chatList);
   useEffect(() => {
     checkSession();
     const getToken = async () => {
@@ -33,6 +36,7 @@ const Home: NextPage<{
   }, [accessToken]);
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log('onSubmit', room);
     let conversation;
     try {
       conversation = await createOrJoinConversation({

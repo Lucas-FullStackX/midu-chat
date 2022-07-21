@@ -17,7 +17,6 @@ export default async function handler(
   res: NextApiResponse<Data>
 ) {
   const { chatSID, identity } = req.query;
-  console.log(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
   const client = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
   if (!chatSID || !identity) {
     return res.status(400).json({ error: 'Missing chatSID or identity' });
@@ -26,9 +25,9 @@ export default async function handler(
     .conversations(chatSID as string)
     .fetch()
     .then((conversation) => {
-      console.log(conversation);
       return conversation.uniqueName;
     });
+  console.log('name', uniqueName);
   try {
     const participant = await client.conversations.v1
       .conversations(chatSID as string)
@@ -38,6 +37,7 @@ export default async function handler(
   } catch (err) {
     if (err instanceof Error) {
       // 👉️ err is type Error here
+      console.error(err);
       if (err.message.toLowerCase().includes('already exists')) {
         res.json({ data: err.message, room: uniqueName });
       }

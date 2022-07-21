@@ -22,7 +22,6 @@ export const useCheckStore = ({
   useEffect(() => {
     const getConversation = async () => {
       if (!store.activeConversation) {
-        console.log(user);
         if (!sbToken) {
           setError('You must be logged in to chat');
           setLoading(false);
@@ -48,6 +47,6 @@ export const useCheckStore = ({
       }
     };
     getConversation();
-  }, [store]);
+  }, []);
   return { error, loading };
 };
