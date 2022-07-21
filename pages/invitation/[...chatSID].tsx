@@ -7,7 +7,7 @@ import Head from 'next/head';
 const Invitation: NextPage<{
   user: User;
   accessToken: string;
-}> = ({ user, accessToken }: { user: User; accessToken: string }) => {
+}> = ({ user }: { user: User; accessToken: string }) => {
   const router = useRouter();
   const chatSID = router.query.chatSID as string;
   useEffect(() => {
