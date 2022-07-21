@@ -8,8 +8,9 @@ import { useCheckStore } from '../../src/hooks/useCheckStore';
 import { getUser, User, withPageAuth } from '@supabase/auth-helpers-nextjs';
 import { useStore } from '../../src/hooks/useStore';
 import { NavBar } from '../../src/components/NavBar';
+import Head from 'next/head';
 
-const Home: NextPage<{
+const Room: NextPage<{
   user: User;
   accessToken: string;
 }> = ({ user, accessToken }: { user: User; accessToken: string }) => {
@@ -36,34 +37,39 @@ const Home: NextPage<{
   }, [messages]);
   console.log('messages', messages);
   return (
-    <div className="mx-auto mr-8 ml-8 grid max-h-screen max-w-6xl grid-cols-1 grid-rows-[55px_80vh_auto] py-2">
-      <NavBar
-        copyText={`${route}/invitation/${store.activeConversation?.sid}`}
-        title={room}
-      />
-      <div className="scrollbar-thumb-rounded-full h-full overflow-hidden overflow-y-scroll pr-2 scrollbar-thin scrollbar-thumb-slate-600">
-        {messages.map((message, index) => (
-          <Message
-            key={message.sid}
-            message={message}
-            isNext={
-              index < messages.length - 1 &&
-              message.author === messages[index + 1]?.author
-            }
-            isPrevious={
-              messages.length > 1 &&
-              message.author !== messages[index - 1]?.author
-            }
-          />
-        ))}
-        <div ref={ref} />
+    <>
+      <Head>
+        <title>MiduChat-{room}</title>
+      </Head>
+      <div className="mx-auto mr-8 ml-8 grid max-h-screen max-w-6xl grid-cols-1 grid-rows-[55px_80vh_auto] py-2">
+        <NavBar
+          copyText={`${route}/invitation/${store.activeConversation?.sid}`}
+          title={room}
+        />
+        <div className="scrollbar-thumb-rounded-full h-full overflow-hidden overflow-y-scroll pr-2 scrollbar-thin scrollbar-thumb-slate-600">
+          {messages.map((message, index) => (
+            <Message
+              key={message.sid}
+              message={message}
+              isNext={
+                index < messages.length - 1 &&
+                message.author === messages[index + 1]?.author
+              }
+              isPrevious={
+                messages.length > 1 &&
+                message.author !== messages[index - 1]?.author
+              }
+            />
+          ))}
+          <div ref={ref} />
+        </div>
+        <MessageInput />
       </div>
-      <MessageInput />
-    </div>
+    </>
   );
 };
 
-export default Home;
+export default Room;
 
 export const getServerSideProps = withPageAuth({
   redirectTo: '/',

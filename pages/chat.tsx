@@ -9,7 +9,7 @@ import { User, useUser } from '@supabase/auth-helpers-react';
 import { withPageAuth, getUser } from '@supabase/auth-helpers-nextjs';
 import { useFetchChats } from '../src/hooks/useFetchChats';
 
-const Home: NextPage<{
+const Chat: NextPage<{
   user: User;
 }> = ({ user }: { user: User }) => {
   const { accessToken: sbToken, checkSession } = useUser();
@@ -80,7 +80,7 @@ const Home: NextPage<{
   );
 };
 
-export default Home;
+export default Chat;
 export const getServerSideProps = withPageAuth({
   redirectTo: '/',
   async getServerSideProps(ctx) {
