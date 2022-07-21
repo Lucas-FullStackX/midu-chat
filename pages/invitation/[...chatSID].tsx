@@ -5,7 +5,8 @@ import { getUser, User, withPageAuth } from '@supabase/auth-helpers-nextjs';
 
 const Home: NextPage<{
   user: User;
-}> = ({ user }: { user: User }) => {
+  accessToken: string;
+}> = ({ user, accessToken }: { user: User; accessToken: string }) => {
   const router = useRouter();
   const chatSID = router.query.chatSID as string;
   console.log('chatSID', chatSID);
@@ -31,8 +32,9 @@ const Home: NextPage<{
     } else {
       res();
     }
-  }, []);
-  console.log('user', user);
+    console.log('user', user, accessToken);
+  }, [user]);
+  console.log('user', user, accessToken);
   return <p>Loading</p>;
 };
 

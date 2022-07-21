@@ -1,6 +1,6 @@
+import { supabaseClient } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
-import { onLogin, onSingUp } from '../auth/supabaseClient';
 import { ChatActionsTypes, TypeOptions } from '../types';
 import { useDispatch } from './useDispatch';
 
@@ -25,11 +25,12 @@ export const useFormSession = ({ type, redirectTo }: useFormSessionProps) => {
     try {
       let user;
       if (type === TypeOptions.login) {
-        user = await onLogin(form);
+        user = await supabaseClient.auth.signIn(form);
       }
       if (type === TypeOptions.register) {
-        user = await onSingUp(form);
+        user = await supabaseClient.auth.signUp(form);
       }
+      console.log('here:', user);
       if (user) {
         console.log('here:', user);
         dispatch({ type: ChatActionsTypes.SET_USER, payload: user });
