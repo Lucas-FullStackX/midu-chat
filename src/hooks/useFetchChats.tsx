@@ -7,10 +7,8 @@ export const useFetchChats = () => {
   const [chatList, setChatList] = useState<UserConversationInstance[]>([]);
   const { checkSession, user } = useUser();
   useEffect(() => {
-    console.log('useFetchChats', user);
     const getConversation = async () => {
       const chats = await fetch(`/api/get-chats-list?identity=${user.email}`);
-      console.log('chats', chats);
       const chatsList = await chats.json();
       setChatList(chatsList.conversations);
       setLoading(false);

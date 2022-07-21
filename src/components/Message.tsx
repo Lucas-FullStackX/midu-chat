@@ -37,7 +37,7 @@ export const Message: FunctionComponent<MessageProps> = ({
               <p className="text-white">{body}</p>
               <p className="text-right text-xs text-slate-300">{createdAt}</p>
             </div>
-            {isNext ? (
+            {!isNext ? (
               <img
                 className="h-8 w-8 rounded-full"
                 src={`https://www.gravatar.com/avatar/${hash}?d=identicon`}
@@ -49,7 +49,7 @@ export const Message: FunctionComponent<MessageProps> = ({
           </>
         ) : (
           <>
-            {isPrevious ? (
+            {isPrevious || (!isPrevious && !isNext) ? (
               <img
                 className="h-8 w-8 rounded-full"
                 src={`https://www.gravatar.com/avatar/${hash}?d=identicon`}
@@ -59,11 +59,11 @@ export const Message: FunctionComponent<MessageProps> = ({
               <div className="w-8" />
             )}
             <div className="max-w-2/3 relative w-auto rounded-lg  bg-slate-800 p-2 font-medium dark:text-white">
-              {isPrevious && (
+              {isPrevious || (!isPrevious && !isNext) ? (
                 <span className="absolute -top-5 truncate text-xs">
                   {author.split('@')[0]}
                 </span>
-              )}
+              ) : null}
               <p className="text-white">{body}</p>
               <p className="text-xs text-slate-500">{createdAt}</p>
             </div>

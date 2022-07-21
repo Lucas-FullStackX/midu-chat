@@ -8,7 +8,7 @@ export const getAccessToken = async ({
       jwt: token
     }
   });
-  console.log(res);
+
   if (!res.ok) throw new Error('Error getting access token');
 
   const { accessToken } = await res.json();

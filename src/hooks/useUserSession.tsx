@@ -12,7 +12,6 @@ export const useGetSession = () => {
   useEffect(() => {
     const getUser = async () => {
       const user = supabaseClient.auth.user();
-      console.log('hook', user);
       const {
         data,
         error: err,

@@ -24,9 +24,7 @@ export default async function handler(
     return;
   }
   const user = await supabaseClient.auth.api.getUser(jwt as string);
-  console.log(user);
   const identity = user?.data?.email;
-  console.log({ identity });
   if (identity == null) return { status: 401 };
   const { AccessToken } = twilio.jwt;
   const { ChatGrant } = AccessToken;
@@ -45,8 +43,6 @@ export default async function handler(
   });
 
   accessToken.addGrant(conversationsGrant);
-
-  console.log(conversationsGrant);
 
   res.status(200).json({ accessToken: accessToken.toJwt() });
 }

@@ -10,7 +10,6 @@ const Invitation: NextPage<{
 }> = ({ user, accessToken }: { user: User; accessToken: string }) => {
   const router = useRouter();
   const chatSID = router.query.chatSID as string;
-  console.log('chatSID', chatSID);
   useEffect(() => {
     const res = async () => {
       try {
@@ -33,9 +32,7 @@ const Invitation: NextPage<{
     } else {
       res();
     }
-    console.log('user', user, accessToken);
   }, [user]);
-  console.log('user', user, accessToken);
   return (
     <>
       <Head>

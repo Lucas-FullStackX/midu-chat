@@ -27,7 +27,6 @@ export default async function handler(
     .then((conversation) => {
       return conversation.uniqueName;
     });
-  console.log('name', uniqueName);
   try {
     const participant = await client.conversations.v1
       .conversations(chatSID as string)

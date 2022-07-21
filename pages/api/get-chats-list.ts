@@ -32,7 +32,6 @@ export default async function handler(
     }
   }
   try {
-    console.log(users);
     if (users) {
       const user = users.find((user) => user.identity === identity);
       if (user) {

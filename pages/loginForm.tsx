@@ -13,7 +13,7 @@ const LoginFormPage: NextPage = () => {
       <Head>
         <title>Login</title>
       </Head>
-      <div className="container flex h-full min-h-screen content-center justify-center">
+      <div className="flex h-full min-h-screen w-screen content-center justify-center">
         <LoginForm redirectTo={redirectTo} />
       </div>
     </>

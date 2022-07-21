@@ -30,9 +30,7 @@ export const useFormSession = ({ type, redirectTo }: useFormSessionProps) => {
       if (type === TypeOptions.register) {
         user = await supabaseClient.auth.signUp(form);
       }
-      console.log('here:', user);
       if (user) {
-        console.log('here:', user);
         dispatch({ type: ChatActionsTypes.SET_USER, payload: user });
       }
       if (redirectTo) {

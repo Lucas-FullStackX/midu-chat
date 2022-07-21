@@ -16,7 +16,7 @@ export const LoginForm: FunctionComponent<LoginFormProps> = ({
     redirectTo
   });
   return (
-    <div className="h-1/3 w-1/3 self-center rounded-lg border border-gray-200 bg-white p-4 shadow-md dark:border-gray-700 dark:bg-gray-800 sm:p-6 lg:p-8">
+    <div className="h-1/3 w-1/3 self-center rounded-lg border border-gray-200 bg-white p-4 shadow-md dark:border-gray-700 dark:bg-gray-800 sm:p-6 md:w-3/5 lg:p-8">
       <form className="space-y-6" action="#" onSubmit={onSubmit}>
         <h5 className="text-xl font-medium text-gray-900 dark:text-white">
           {typeForm === TypeOptions.register ? 'Sing Up' : 'Log in'}

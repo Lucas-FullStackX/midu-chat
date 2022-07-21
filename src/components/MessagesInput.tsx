@@ -10,7 +10,6 @@ export const MessageInput: FunctionComponent<LoginFormProps> = () => {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(e.target.value);
   };
-  console.log('store', store);
   const onKeyDown = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault();

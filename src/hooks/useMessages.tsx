@@ -19,7 +19,6 @@ export const useMessages = () => {
       }
     };
     if (store.activeConversation) {
-      console.log('store.activeConversation', store.activeConversation);
       store.activeConversation.on('messageAdded', getMessages);
     }
     getMessages();

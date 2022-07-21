@@ -35,14 +35,12 @@ export const useCheckStore = ({
           accessToken,
           userName: user?.email ?? ''
         });
-        console.log('conversation', conversation);
 
         if (conversation) {
           dispatch({
             type: ChatActionsTypes.SET_ACTIVE_CONVERSATION,
             payload: conversation
           });
-          console.log('conversation', store);
         }
       }
     };

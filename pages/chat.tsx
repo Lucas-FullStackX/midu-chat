@@ -36,7 +36,6 @@ const Chat: NextPage<{
   }, [accessToken]);
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('onSubmit', room);
     let conversation;
     try {
       conversation = await createOrJoinConversation({
@@ -60,7 +59,7 @@ const Chat: NextPage<{
     <div className="container flex h-full min-h-screen content-center justify-center">
       <form onSubmit={onSubmit}>
         <label className="mb-2 block text-sm font-medium text-gray-700">
-          Introduce la sala del chat a la que quieres entrar
+          Create a new room
         </label>
         <input
           id="room-select"
@@ -73,7 +72,7 @@ const Chat: NextPage<{
           type="submit"
           className="mb-2 mt-2 w-full rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:ring-4 focus:ring-blue-300"
         >
-          ¡Entrar!
+          Create
         </button>
       </form>
     </div>

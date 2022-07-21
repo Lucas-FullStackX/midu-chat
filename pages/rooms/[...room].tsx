@@ -19,7 +19,6 @@ const Room: NextPage<{
   const [route, setRoute] = React.useState('');
 
   const room = router.query.room as string;
-  console.log('room', room);
   useCheckStore({
     room: room[0],
     user,
@@ -35,7 +34,6 @@ const Room: NextPage<{
       setRoute(window.location.host);
     }
   }, [messages]);
-  console.log('messages', messages);
   return (
     <>
       <Head>
@@ -57,7 +55,7 @@ const Room: NextPage<{
               }
               isPrevious={
                 messages.length > 1 &&
-                message.author !== messages[index - 1]?.author
+                message.author === messages[index - 1]?.author
               }
             />
           ))}
